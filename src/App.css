@@ -8,18 +8,38 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  .Sign-Up:hover {
+    animation: shake 0.5s;
+
+    /* When the animation is finished, start again */
+    animation-iteration-count: infinite;
+  }
+  .Login:hover {
+    animation: shake 0.5s;
+
+    /* When the animation is finished, start again */
+    animation-iteration-count: infinite;
   }
 }
 
+.App-Header-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+}
+
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  /* background-color: #282c34; */
+  background-color: #8e08b3;
+  height: calc(100vh - 120px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: PressStart2P-Regular;
+  max-width: 100vw;
+
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -28,11 +48,171 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
+.App-Main {
+  background-color: #8e08b3;
+  height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: PressStart2P-Regular;
+
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(-1deg);
+  }
+  20% {
+    transform: rotate(1deg);
+  }
+  30% {
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(1deg);
+  }
+  50% {
+    transform: rotate(-1deg);
+  }
+  60% {
+    transform: rotate(0deg);
+  }
+  70% {
+    transform: rotate(-1deg);
+  }
+  80% {
+    transform: rotate(1deg);
+  }
+  90% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-1deg);
+  }
+}
+
+.Header-body {
+  height: 12vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
+
+.Header-text {
+  height: 120px !important;
+  font-size: 7vw;
+  font-family: PressStart2P-Regular;
+}
+
+@font-face {
+  font-family: "PressStart2P-Regular";
+  src: local("PressStart2P-Regular"),
+    url(./fonts/PressStart2P-Regular.ttf) format("woff");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
+}
+
+.Sign-Up {
+  width: 200px;
+  text-shadow: 2px 2px #b3080e;
+  cursor: pointer;
+}
+
+.Login {
+  width: 200px;
+  text-shadow: 2px 2px #083eb3;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes roll {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
+}
+
+.access-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 600px;
+}
+
+.text-field {
+  color: #000000;
+  font-size: 18px;
+  background-color: #ffffff;
+  border: 0px;
+  width: 100%;
+  height: 35px;
+}
+.text-field:active {
+  border: 0px;
+}
+
+.Modal-container {
+  position: fixed;
+  width: 80vw;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  border: #ffffff;
+  border-style: solid;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 4px;
+  padding-top: 2px;
+  box-shadow: 2px 2px #dd9eedd3;
+}
+
+.Modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.modal-options {
+  font-size: 16px;
+}
+.modal-options:hover {
+  cursor: pointer;
+}
+
+.Modal-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.log-in-button {
+  margin-top: 10px;
+  width: 150px;
+}
+
+.login-text {
+  font-size: 20px;
+}
+
+.text-active {
+  color: #61dafb;
 }
