@@ -1,5 +1,5 @@
 import { FaWindowClose } from "react-icons/fa";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { Button } from "react-bootstrap";
 
 function Modal(props) {
@@ -7,11 +7,7 @@ function Modal(props) {
 
   const [formData, setFormData] = useState({});
 
-  const submitFormData = () => {
-    
-  };
-
-
+  
   const handleChangeForm = (event) => {
     let field = event.target.name;
     let value = event.target.value;

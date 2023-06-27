@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import React, {useState, useEffect}  from "react";
 import { Button } from "react-bootstrap";
+import axios from "axios";
 function Access() {
   const [formData, setFormData] = useState({});
   // const [open, setOpen] = useState(true)
@@ -8,6 +8,17 @@ function Access() {
   // const handleClose = () => {
   //   setOpen(false)
   // }
+  const apiUrl = process.env.ADDRESS;
+const getUser =() => {
+  axios({
+    method: 'post',
+    url: apiUrl + '/login',
+    data: {
+      firstName: 'Finn',
+      lastName: 'Williams'
+    }
+  });
+}
   const handleChangeForm = (event) => {
     let field = event.target.name;
     let value = event.target.value;
@@ -54,7 +65,8 @@ function Access() {
           ></input>
         </label>
       </div>
-      <Button>Log In</Button>
+      <span onClick={getUser}><Button >Log In</Button></span>
+      
     </div>
   );
 }
