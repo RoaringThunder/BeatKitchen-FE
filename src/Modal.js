@@ -1,13 +1,13 @@
 import { FaWindowClose } from "react-icons/fa";
-import React, {  useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
+import UserFunctionClass from "./functions/UserFunctionClass";
 
 function Modal(props) {
   const { show, hide, tab, setActiveTab } = props;
 
   const [formData, setFormData] = useState({});
 
-  
   const handleChangeForm = (event) => {
     let field = event.target.name;
     let value = event.target.value;
@@ -15,7 +15,6 @@ function Modal(props) {
       setFormData((prevState) => ({
         ...prevState,
         [field]: value,
-        pw_display: "*".repeat(value.length),
       }));
     } else {
       setFormData((prevState) => ({
@@ -31,6 +30,29 @@ function Modal(props) {
 
   const onClickSignUp = () => {
     setActiveTab("signup");
+  };
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
+  const onSubmit = () => {
+    if (tab === "signin") {
+      UserFunctionClass.SignIn(formData)
+        .then((response) => {
+          if (response.status === true) {
+            console.log(response);
+          } else {
+            console.log(response);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+        .finally(() => {
+          console.log("done");
+        });
+    }
   };
 
   return (
@@ -63,9 +85,9 @@ function Modal(props) {
                   <input
                     className="text-field"
                     type="text"
-                    name="username"
+                    name="email"
                     onChange={(e) => handleChangeForm(e)}
-                    value={formData.username}
+                    value={formData.email}
                   ></input>
                 </label>
                 <label className="form-input">
@@ -75,7 +97,7 @@ function Modal(props) {
                     type="text"
                     name="password"
                     onChange={(e) => handleChangeForm(e)}
-                    value={formData.pw_display}
+                    value={formData.password}
                   ></input>
                 </label>
               </div>
@@ -86,9 +108,9 @@ function Modal(props) {
                   <input
                     className="text-field"
                     type="text"
-                    name="username"
+                    name="email"
                     onChange={(e) => handleChangeForm(e)}
-                    value={formData.username}
+                    value={formData.email}
                   ></input>
                 </label>
                 <label className="form-input">
@@ -108,7 +130,7 @@ function Modal(props) {
                     type="text"
                     name="password"
                     onChange={(e) => handleChangeForm(e)}
-                    value={formData.pw_display}
+                    value={formData.password}
                   ></input>
                 </label>
               </div>
@@ -116,7 +138,7 @@ function Modal(props) {
 
             <div>
               <Button className="log-in-button">
-                <span className="login-text">Submit</span>
+                <span className="login-text" onClick={onSubmit}>Submit</span>
               </Button>
             </div>
           </div>
