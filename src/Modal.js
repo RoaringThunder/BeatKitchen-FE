@@ -1,27 +1,21 @@
 import { FaWindowClose } from "react-icons/fa";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button } from "react-bootstrap";
 import UserFunctionClass from "./functions/UserFunctionClass";
+import AuthContext from "./AuthContext";
 
 function Modal(props) {
   const { show, hide, tab, setActiveTab } = props;
-
+  const {loginApiCall} = useContext(AuthContext)
   const [formData, setFormData] = useState({});
 
   const handleChangeForm = (event) => {
     let field = event.target.name;
     let value = event.target.value;
-    if (field === "password") {
-      setFormData((prevState) => ({
-        ...prevState,
-        [field]: value,
-      }));
-    } else {
-      setFormData((prevState) => ({
-        ...prevState,
-        [field]: value,
-      }));
-    }
+    setFormData((prevState) => ({
+      ...prevState,
+      [field]: value,
+    }));
   };
 
   const onClickLogin = () => {
@@ -36,9 +30,37 @@ function Modal(props) {
     console.log(formData);
   }, [formData]);
 
+  const loginHandler = async () => {
+    const formDataExistingUser = {
+      email: formData.email,
+      password: formData.password,
+    };
+    await loginApiCall(formDataExistingUser)
+    .then((response) => {
+      if (response.status === true) {
+        console.log(response);
+      } else {
+        console.log(response);
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+    .finally(() => {
+      console.log("done");
+    });
+  }
+
   const onSubmit = () => {
     if (tab === "signin") {
-      UserFunctionClass.SignIn(formData)
+     loginHandler()
+    } else if (tab === "signup") {
+      const formDataNewUser = {
+        email: formData.email,
+        username: formData.username,
+        password: formData.password,
+      };
+      UserFunctionClass.SignUp(formDataNewUser)
         .then((response) => {
           if (response.status === true) {
             console.log(response);
@@ -108,9 +130,9 @@ function Modal(props) {
                   <input
                     className="text-field"
                     type="text"
-                    name="email"
+                    name="username"
                     onChange={(e) => handleChangeForm(e)}
-                    value={formData.email}
+                    value={formData.username}
                   ></input>
                 </label>
                 <label className="form-input">
@@ -138,7 +160,9 @@ function Modal(props) {
 
             <div>
               <Button className="log-in-button">
-                <span className="login-text" onClick={onSubmit}>Submit</span>
+                <span className="login-text" onClick={onSubmit}>
+                  Submit
+                </span>
               </Button>
             </div>
           </div>
