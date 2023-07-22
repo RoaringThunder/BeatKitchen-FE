@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 
 const API_HOST = process.env.REACT_APP_API_HOST;
+axios.defaults.withCredentials = true;
+
 
 class UserFunctionClass extends React.Component {
   async SignIn(userData) {
@@ -10,6 +12,7 @@ class UserFunctionClass extends React.Component {
       method: "post",
       url: apiURL,
       data: userData,
+      withCredentials: true,
     })
       .then((response) => {
         if (response.status === 200) {
@@ -29,7 +32,6 @@ class UserFunctionClass extends React.Component {
           statusMsg = err.response.data.error;
           statusCode = err.response.status;
         }
-        console.log(apiURL);
         return { ststus: false, message: statusMsg, statusCode: statusCode };
       });
     return result;
@@ -60,7 +62,6 @@ class UserFunctionClass extends React.Component {
           statusMsg = err.response.data.error;
           statusCode = err.response.status;
         }
-        console.log(apiURL);
         return { ststus: false, message: statusMsg, statusCode: statusCode };
       });
     return result;

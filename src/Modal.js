@@ -1,16 +1,23 @@
-import { FaWindowClose } from "react-icons/fa";
+// import { FaWindowClose } from "react-icons/fa";
 import React, { useState, useEffect, useContext } from "react";
 import { Button } from "react-bootstrap";
 import UserFunctionClass from "./functions/UserFunctionClass";
 import AuthContext from "./AuthContext";
-
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 function Modal(props) {
   const { show, hide, tab, setActiveTab } = props;
-  const {loginApiCall} = useContext(AuthContext)
-  const [formData, setFormData] = useState({});
+  const { loginApiCall } = useContext(AuthContext);
+  const [formData, setFormData] = useState({
+    signInEmail: "",
+    signInPassword: "",
+    signUpEmail: "",
+    signUpPassword: "",
+  });
+  const { loading, setLoading } = useState(false);
 
   const handleChangeForm = (event) => {
-    let field = event.target.name;
+    let field = event.target.id;
     let value = event.target.value;
     setFormData((prevState) => ({
       ...prevState,
@@ -26,54 +33,43 @@ function Modal(props) {
     setActiveTab("signup");
   };
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
   const loginHandler = async () => {
     const formDataExistingUser = {
-      email: formData.email,
-      password: formData.password,
+      email: formData.signInEmail,
+      password: formData.signInPassword,
     };
     await loginApiCall(formDataExistingUser)
-    .then((response) => {
-      if (response.status === true) {
-        console.log(response);
-      } else {
-        console.log(response);
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-    })
-    .finally(() => {
-      console.log("done");
-    });
-  }
+      .then((response) => {
+        if (response.status === true) {
+          hide();
+        } else {
+        }
+      })
+      .catch((e) => {})
+      .finally(() => {});
+  };
+
+  const signUpHandler = () => {
+    const formDataNewUser = {
+      email: formData.signUpEmail,
+      password: formData.signUpPassword,
+    };
+    UserFunctionClass.SignUp(formDataNewUser)
+      .then((response) => {
+        if (response.status === true) {
+          hide();
+        } else {
+        }
+      })
+      .catch((e) => {})
+      .finally(() => {});
+  };
 
   const onSubmit = () => {
     if (tab === "signin") {
-     loginHandler()
+      loginHandler();
     } else if (tab === "signup") {
-      const formDataNewUser = {
-        email: formData.email,
-        username: formData.username,
-        password: formData.password,
-      };
-      UserFunctionClass.SignUp(formDataNewUser)
-        .then((response) => {
-          if (response.status === true) {
-            console.log(response);
-          } else {
-            console.log(response);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        })
-        .finally(() => {
-          console.log("done");
-        });
+      signUpHandler();
     }
   };
 
@@ -83,80 +79,73 @@ function Modal(props) {
         <div className="Modal-container">
           <span className="Modal-header">
             <div className="modal-options">
-              <span
-                className={`${tab === "signin" ? "text-active" : ""}`}
+              <div
+                className={`${
+                  tab === "signin"
+                    ? "col-xs-5 col-md-9 col-l-10 col-xl-10 text-active"
+                    : "col-xs-7 col-md-3 col-l-2 col-xl-2"
+                }`}
                 onClick={onClickLogin}
               >
-                LOG IN
-              </span>
-              <span>/</span>
-              <span
-                className={`${tab === "signup" ? "text-active" : ""}`}
+                <span>LOGIN</span>
+              </div>
+              <div
+                className={`${
+                  tab === "signup"
+                    ? "col-xs-5 col-md-9 col-l-10 col-xl-10 text-active"
+                    : "col-xs-7 col-md-3 col-l-2 col-xl-2"
+                }`}
                 onClick={onClickSignUp}
               >
-                SIGN UP
-              </span>
+                <span>SIGN UP</span>
+              </div>
             </div>
-            <FaWindowClose onClick={hide} />
+            {/* <FaWindowClose onClick={hide} /> */}
+            {/* <span className="fa-stack-icon" onClick={() => hide()}> */}
+            {/* <FontAwesomeIcon icon={faCircleXmark} color="black" /> */}
           </span>
           <div className="Modal-body">
-            {tab === "signin" ? (
-              <div className="access-form">
-                <label className="form-input">
-                  Username:
+            <div className="access-form">
+              {tab === "signin" ? (
+                <>
                   <input
-                    className="text-field"
-                    type="text"
-                    name="email"
+                    type="email"
+                    className="form-control"
+                    id="signInEmail"
+                    placeholder="Email"
                     onChange={(e) => handleChangeForm(e)}
-                    value={formData.email}
-                  ></input>
-                </label>
-                <label className="form-input">
-                  Password:
+                    value={formData.signInEmail}
+                  />
                   <input
-                    className="text-field"
-                    type="text"
-                    name="password"
+                    type="password"
+                    className="form-control"
+                    id="signInPassword"
+                    placeholder="Password"
                     onChange={(e) => handleChangeForm(e)}
-                    value={formData.password}
-                  ></input>
-                </label>
-              </div>
-            ) : (
-              <div className="access-form">
-                <label className="form-input">
-                  Username:
+                    value={formData.signInPassword}
+                  />
+                </>
+              ) : (
+                <>
                   <input
-                    className="text-field"
-                    type="text"
-                    name="username"
+                    type="email"
+                    className="form-control"
+                    id="signUpEmail"
+                    placeholder="Email"
                     onChange={(e) => handleChangeForm(e)}
-                    value={formData.username}
-                  ></input>
-                </label>
-                <label className="form-input">
-                  Email:
+                    value={formData.signUpEmail}
+                  />
                   <input
-                    className="text-field"
-                    type="text"
-                    name="email"
+                    type="password"
+                    className="form-control"
+                    id="signUpPassword"
+                    placeholder="Password"
                     onChange={(e) => handleChangeForm(e)}
-                    value={formData.email}
-                  ></input>
-                </label>
-                <label className="form-input">
-                  Password:
-                  <input
-                    className="text-field"
-                    type="text"
-                    name="password"
-                    onChange={(e) => handleChangeForm(e)}
-                    value={formData.password}
-                  ></input>
-                </label>
-              </div>
-            )}
+                    value={formData.signUpPassword}
+                  />
+                </>
+              )}
+            </div>
 
             <div>
               <Button className="log-in-button">

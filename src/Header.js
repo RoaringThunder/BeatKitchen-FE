@@ -1,10 +1,6 @@
 import React from "react";
 
 function Header() {
-  return (
-    <div className="Header-body">
-      <div className="Header-text">salamander.io</div>
-    </div>
-  );
+  // return <div className="Header-body">m</div>;
 }
 export default Header;

@@ -3,17 +3,15 @@ import Header from "./Header";
 import React from "react";
 import Home from "./Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Access from "./Access";
 import { AuthContextProvider } from "./AuthContext";
 function App() {
   return (
     <AuthContextProvider>
-      <div className="App">
-        <Header />
+      <div className="Main">
+        {/* <Header /> */}
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/access" element={<Access />} />
           </Routes>
         </BrowserRouter>
       </div>
