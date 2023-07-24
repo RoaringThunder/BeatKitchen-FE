@@ -1,19 +1,16 @@
 import { createContext } from "react";
 import axios from "axios";
 
-const API_HOST = process.env.REACT_APP_API_HOST;
 const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }) => {
+  const API_HOST = process.env.REACT_APP_API_HOST;
   const loginApiCall = async (payload) => {
     const apiURL = API_HOST + "/login";
     const result = axios
       .post(apiURL, payload)
       .then((response) => {
         if (response.status === 200) {
-          //store cookie here
-          // Get session cookie from response headers
-          // const sessionCookie = response.headers["set-cookie"];
           return { status: true, data: response, statusCode: response.status };
         } else {
           return {

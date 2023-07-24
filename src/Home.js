@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import Login from "./Login.css";
+import Loader from "./Loader";
 import AuthContext from "./AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -8,12 +9,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
-  const { CheckCookie } = useContext(AuthContext);
+  const { CheckCookie, loginApiCall } = useContext(AuthContext);
 
   const [activeTab, setActiveTab] = useState("login");
   const [loading, setLoading] = useState(true);
   const [animating, setAnimating] = useState(true);
   const [showBadPassword, setShowBadPassword] = useState(false);
+  const [awaiting, setAwaiting] = useState(false);
 
   const [formData, setFormData] = useState({
     loginEmail: "",
@@ -60,6 +62,7 @@ function Home() {
       email: formData.loginEmail,
       password: formData.loginPassword,
     };
+    setAwaiting(true);
     await loginApiCall(formDataExistingUser)
       .then((response) => {
         if (response.status === true) {
@@ -67,7 +70,9 @@ function Home() {
         }
       })
       .catch((e) => {})
-      .finally(() => {});
+      .finally(() => {
+        setAwaiting(false);
+      });
   };
 
   const signUpHandler = () => {
@@ -80,6 +85,7 @@ function Home() {
       password: formData.registerPassword,
       firstname: formData.registerFirstname,
     };
+    setAwaiting(true);
     UserFunctionClass.SignUp(formDataNewUser)
       .then((response) => {
         if (response.status === true) {
@@ -88,7 +94,9 @@ function Home() {
         }
       })
       .catch((e) => {})
-      .finally(() => {});
+      .finally(() => {
+        setAwaiting(false);
+      });
   };
 
   const onChangeFormData = (e) => {
@@ -97,6 +105,25 @@ function Home() {
       ...prevState,
       [field]: e.target.value,
     }));
+  };
+
+  const onClickSubmit = () => {
+    if (activeTab === "login") {
+      loginHandler();
+    } else {
+      signUpHandler();
+    }
+  };
+
+  const onClear = () => {
+    setFormData({
+      loginEmail: "",
+      loginPassword: "",
+      registerFirstname: "",
+      registerEmail: "",
+      registerPassword: "",
+      registerConfirmPassword: "",
+    });
   };
 
   const onChangeTab = (e) => {
@@ -128,23 +155,30 @@ function Home() {
                       </p>
                     </div>
                     <div className="login-panel">
-                      <div className="login-panel-options">
-                        <span
-                          className={`${activeTab === "login" ? "active" : ""}`}
-                          id="login"
-                          onClick={(e) => onChangeTab(e)}
-                        >
-                          Login
-                        </span>
-                        <span
-                          className={`${
-                            activeTab === "register" ? "active" : ""
-                          }`}
-                          id="register"
-                          onClick={(e) => onChangeTab(e)}
-                        >
-                          Register
-                        </span>
+                      <div className="login-panel-header">
+                        <div className="login-panel-options">
+                          <span
+                            className={`${
+                              activeTab === "login" ? "active" : ""
+                            }`}
+                            id="login"
+                            onClick={(e) => onChangeTab(e)}
+                          >
+                            Login
+                          </span>
+                          <span
+                            className={`${
+                              activeTab === "register" ? "active" : ""
+                            }`}
+                            id="register"
+                            onClick={(e) => onChangeTab(e)}
+                          >
+                            Register
+                          </span>
+                        </div>
+                        <div className="login-panel-loader">
+                          {awaiting && <Loader />}
+                        </div>
                       </div>
                       <form>
                         <div className="form-group">
@@ -156,6 +190,7 @@ function Home() {
                                 id="loginEmail"
                                 name="loginEmail"
                                 placeholder="Email"
+                                value={formData.loginEmail}
                                 onChange={(e) => onChangeFormData(e)}
                               />
                               <span>Password:</span>
@@ -181,6 +216,7 @@ function Home() {
                                 id="registerFirstname"
                                 name="registerFirstname"
                                 placeholder="Firstname"
+                                value={formData.registerFirstname}
                                 onChange={(e) => onChangeFormData(e)}
                               />
 
@@ -190,6 +226,7 @@ function Home() {
                                 id="registerEmail"
                                 name="registerEmail"
                                 placeholder="Email"
+                                value={formData.registerEmail}
                                 onChange={(e) => onChangeFormData(e)}
                               />
                               <span>Password:</span>
@@ -229,10 +266,10 @@ function Home() {
                         </div>
                       </form>
                       <div className="login-panel-footer">
-                        <span>
+                        <span onClick={onClickSubmit}>
                           <FontAwesomeIcon icon={faCheckCircle} color="white" />
                         </span>
-                        <span>
+                        <span onClick={onClear}>
                           {" "}
                           <FontAwesomeIcon icon={faTimesCircle} color="white" />
                         </span>

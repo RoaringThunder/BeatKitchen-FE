@@ -1,0 +1,150 @@
+/* Vinyl record container */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vinyl-record-loader {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #000;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: loaderFlip 1s ease-in-out 0.5s infinite normal none running;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.vinyl-label {
+  width: 37.5%;
+  height: 37.5%;
+  background-color: #e74c3c;
+  border-radius: 50%;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  animation: name duration timing-function delay iteration-count direction
+    fill-mode;
+}
+
+.vinyl-hole {
+  width: 5%;
+  height: 5%;
+  background-color: #111;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.vinyl-record-texture {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(
+    to right,
+    rgba(150, 150, 150, 0.29),
+    rgba(255, 255, 255, 0)
+  );
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.cd-loader {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #56acb6;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: rotatePause 3s linear infinite;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.cd-label {
+  width: 40%;
+  height: 40%;
+  background-color: #8ebdc2de;
+  border-radius: 50%;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.cd-hole {
+  width: 30%;
+  height: 30%;
+  background-color: #111;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.cd-texture {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(
+    to right,
+    rgba(150, 150, 150, 0.29),
+    rgba(255, 255, 255, 0)
+  );
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Animation */
+
+@keyframes rotatePause {
+  0% {
+    transform: rotateX(0deg);
+    /* Start and end positions are the same to avoid a visible pause between rotations */
+  }
+  50% {
+    transform: rotateX(180deg);
+    /* Halfway point, the circle will be upside down */
+  }
+  50.1%,
+  100.1% {
+    animation-timing-function: step-start; /* Instantly change to the next rotation position after the pause */
+  }
+  100% {
+    animation-delay: 1s;
+    transform: rotate(360deg);
+
+    /* Pause for 1 second at the end of each rotation */
+  }
+}
+.vinyl-overlay {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(calc(0vw - 800px));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

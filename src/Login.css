@@ -69,10 +69,19 @@ Reset default styles * {
   font-size: 14px;
 }
 
-.login-panel-options {
+.login-panel-header {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+}
+
+.login-panel-options {
   font-size: 15px;
+}
+
+.login-panel-loader {
+  margin-top: 15px;
+  margin-right: 15px;
 }
 
 .login-panel-options span {
@@ -85,6 +94,7 @@ Reset default styles * {
   border-top-right-radius: 10px;
   border-bottom: 0px;
   border-color: rgba(63, 63, 63, 0);
+  color: #e74c3c;
 }
 
 .login-panel-footer {
@@ -109,7 +119,7 @@ Reset default styles * {
 .active {
   box-shadow: rgba(0, 0, 0, 0.354) 1px 1px 10px 0px;
   clip-path: inset(-5px -5px 0px -5px);
-  color: #e74c3c;
+  color: white !important;
   pointer-events: none;
 }
 
@@ -171,6 +181,11 @@ Reset default styles * {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.login-panel-loader {
+  width: 10px;
+  height: 10px;
 }
 
 /* Animation */

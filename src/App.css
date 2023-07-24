@@ -23,7 +23,8 @@
 }
 
 textarea:focus,
-input:focus {
+input:focus,
+span:focus {
   outline: rgba(249, 32, 32, 0.24);
   caret-color: transparent;
 }
