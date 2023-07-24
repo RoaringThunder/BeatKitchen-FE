@@ -24,10 +24,10 @@ export const AuthContextProvider = ({ children }) => {
         let statusCode = 500;
         let statusMsg = "Connection Refused";
         if (err.response) {
-          statusMsg = err.response.data.error;
+          statusMsg = err.response.data.message;
           statusCode = err.response.status;
         }
-        return { ststus: false, message: statusMsg, statusCode: statusCode };
+        return { status: false, message: statusMsg, statusCode: statusCode };
       });
     return result;
   };

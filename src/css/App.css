@@ -13,6 +13,26 @@
   }
 }
 
+.bg-wee-j {
+  background-color: (63, 63, 63);
+}
+
+.wee-j-orange {
+  color: #e74c3c;
+}
+
+.wee-j-success {
+  color: #39ff14;
+}
+
+.bg-wee-j-orange {
+  background-color: #e74c3c;
+}
+
+.bg-wee-j-success {
+  background-color: #39ff14;
+}
+
 .App-Header-bar {
   display: flex;
   flex-direction: column;
@@ -107,8 +127,6 @@ span:focus {
   font-family: "PressStart2P-Regular";
   src: local("PressStart2P-Regular"),
     url(src/fonts/PressStart2P-Regular.ttf) format("woff");
-  /* other formats include: 'woff2', 'truetype, 'opentype',
-                            'embedded-opentype', and 'svg' */
 }
 
 .Sign-Up {

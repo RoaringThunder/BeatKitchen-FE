@@ -10,7 +10,7 @@ import {
   faCircleInfo,
 } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
-
+import AlertHandler from "src/components/Alerts/AlertHandler";
 function Home() {
   const { CheckCookie, loginApiCall } = useContext(AuthContext);
 
@@ -19,6 +19,8 @@ function Home() {
   const [animating, setAnimating] = useState(true);
   const [showBadRegisterPassword, setShowBadRegisterPassword] = useState(false);
   const [showBadRegisterEmail, setShowBadRegisterEmail] = useState(false);
+  const [alertStatus, setAlertStatus] = useState("success");
+  const [alertMessage, setAlertMessage] = useState("");
 
   const [awaiting, setAwaiting] = useState(false);
 
@@ -30,6 +32,11 @@ function Home() {
     registerPassword: "",
     registerConfirmPassword: "",
   });
+
+  const handleAlert = (status, message) => {
+    setAlertStatus(status);
+    setAlertMessage(message);
+  };
 
   const checkCookie = () => {
     setLoading(true);
@@ -72,6 +79,9 @@ function Home() {
       .then((response) => {
         if (response.status === true) {
         } else {
+          console.log(response);
+          console.log(response.message, response.status);
+          handleAlert(response.status, response.message);
         }
       })
       .catch((e) => {})
@@ -145,6 +155,8 @@ function Home() {
 
   return (
     <>
+      <AlertHandler status={alertStatus} message={alertMessage} />
+
       <div className="login">
         {!animating && (
           <>
