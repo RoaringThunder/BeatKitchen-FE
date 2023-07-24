@@ -59,11 +59,12 @@ Reset default styles * {
   color: #fff;
   margin-bottom: 0.5em;
   padding-left: 30px;
+  margin-bottom: 30px;
 }
 
 .login-panel {
   width: 90%;
-  background-color: rgb(63, 63, 63);
+  background-color: rgba(63, 63, 63, 0);
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.354) 0px 0px 10px 10px;
   font-size: 14px;
@@ -73,6 +74,7 @@ Reset default styles * {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding-top: 11px;
 }
 
 .login-panel-options {
@@ -95,6 +97,10 @@ Reset default styles * {
   border-bottom: 0px;
   border-color: rgba(63, 63, 63, 0);
   color: #e74c3c;
+}
+
+.login-info-icon {
+  padding: 0px 0px 0px 0px !important;
 }
 
 .login-panel-footer {

@@ -1,12 +1,15 @@
 import React, { useEffect, useState, useContext } from "react";
-import Login from "./Login.css";
-import Loader from "./Loader";
-import AuthContext from "./AuthContext";
+import "src/css/Login.css";
+import Loader from "../../components/Loader/Loader";
+import AuthContext from "../App/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faCheckCircle,
   faTimesCircle,
+  faCircleExclamation,
+  faCircleInfo,
 } from "@fortawesome/free-solid-svg-icons";
+import Tippy from "@tippyjs/react";
 
 function Home() {
   const { CheckCookie, loginApiCall } = useContext(AuthContext);
@@ -14,7 +17,9 @@ function Home() {
   const [activeTab, setActiveTab] = useState("login");
   const [loading, setLoading] = useState(true);
   const [animating, setAnimating] = useState(true);
-  const [showBadPassword, setShowBadPassword] = useState(false);
+  const [showBadRegisterPassword, setShowBadRegisterPassword] = useState(false);
+  const [showBadRegisterEmail, setShowBadRegisterEmail] = useState(false);
+
   const [awaiting, setAwaiting] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -76,8 +81,14 @@ function Home() {
   };
 
   const signUpHandler = () => {
+    setShowBadRegisterPassword(false);
+    setShowBadRegisterEmail(false);
     if (formData.registerPassword !== formData.registerConfirmPassword) {
-      setShowBadPassword(true);
+      setShowBadRegisterPassword(true);
+      return;
+    }
+    if (formData.registerEmail.includes("@") == false) {
+      setShowBadRegisterEmail(true);
       return;
     }
     const formDataNewUser = {
@@ -137,11 +148,11 @@ function Home() {
       <div className="login">
         {!animating && (
           <>
-            {loading && (
+            {/* {loading && (
               <>
                 <div className="App-Header-bar">{<span>Loading</span>}</div>
               </>
-            )}
+            )} */}
             {!loading && (
               <>
                 <div className="login-body">
@@ -210,7 +221,17 @@ function Home() {
                             </>
                           ) : (
                             <>
-                              <span>Firstname:</span>
+                              <span>
+                                Firstname:
+                                <Tippy content="No spaces or special characters allowed">
+                                  <span className="login-info-icon">
+                                    <FontAwesomeIcon
+                                      icon={faCircleInfo}
+                                      color="white"
+                                    />
+                                  </span>
+                                </Tippy>
+                              </span>
                               <input
                                 type="text"
                                 id="registerFirstname"
@@ -220,7 +241,19 @@ function Home() {
                                 onChange={(e) => onChangeFormData(e)}
                               />
 
-                              <span>Email:</span>
+                              <span>
+                                Email:
+                                {showBadRegisterEmail && (
+                                  <Tippy content="Invalid email address">
+                                    <span className="login-info-icon">
+                                      <FontAwesomeIcon
+                                        icon={faCircleExclamation}
+                                        color="#e74c3c"
+                                      />
+                                    </span>
+                                  </Tippy>
+                                )}
+                              </span>
                               <input
                                 type="text"
                                 id="registerEmail"
@@ -229,7 +262,17 @@ function Home() {
                                 value={formData.registerEmail}
                                 onChange={(e) => onChangeFormData(e)}
                               />
-                              <span>Password:</span>
+                              <span>
+                                Password:
+                                <Tippy content="Passwords can contain any character. Maximum length: 64 characters">
+                                  <span className="login-info-icon">
+                                    <FontAwesomeIcon
+                                      icon={faCircleInfo}
+                                      color="white"
+                                    />
+                                  </span>
+                                </Tippy>
+                              </span>
 
                               <input
                                 type="text"
@@ -246,7 +289,19 @@ function Home() {
                                 onChange={(e) => onChangeFormData(e)}
                               />
 
-                              <span>Confirm Password:</span>
+                              <span>
+                                Confirm Password:
+                                {showBadRegisterPassword && (
+                                  <Tippy content="Doesn't match password">
+                                    <span className="login-info-icon">
+                                      <FontAwesomeIcon
+                                        icon={faCircleExclamation}
+                                        color="#e74c3c"
+                                      />
+                                    </span>
+                                  </Tippy>
+                                )}
+                              </span>
                               <input
                                 type="text"
                                 id="registerConfirmPassword"
@@ -266,13 +321,23 @@ function Home() {
                         </div>
                       </form>
                       <div className="login-panel-footer">
-                        <span onClick={onClickSubmit}>
-                          <FontAwesomeIcon icon={faCheckCircle} color="white" />
-                        </span>
-                        <span onClick={onClear}>
-                          {" "}
-                          <FontAwesomeIcon icon={faTimesCircle} color="white" />
-                        </span>
+                        <Tippy content="Submit">
+                          <span onClick={onClickSubmit}>
+                            <FontAwesomeIcon
+                              icon={faCheckCircle}
+                              color="white"
+                            />
+                          </span>
+                        </Tippy>
+                        <Tippy content="Clear all">
+                          <span onClick={onClear}>
+                            {" "}
+                            <FontAwesomeIcon
+                              icon={faTimesCircle}
+                              color="white"
+                            />
+                          </span>
+                        </Tippy>
                       </div>
                     </div>
                   </div>

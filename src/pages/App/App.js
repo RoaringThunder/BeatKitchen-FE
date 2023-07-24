@@ -1,6 +1,6 @@
-import "./App.css";
+import "src/css/App.css";
 import React from "react";
-import Home from "./Home";
+import Home from "../Home/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthContextProvider } from "./AuthContext";
 function App() {

@@ -46,7 +46,7 @@ span:focus {
   border-radius: 7px;
   border: 0px;
   padding-left: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   background-color: rgb(63, 63, 63);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 5px 2px;
   color: rgb(123, 123, 123);
@@ -106,7 +106,7 @@ span:focus {
 @font-face {
   font-family: "PressStart2P-Regular";
   src: local("PressStart2P-Regular"),
-    url(./fonts/PressStart2P-Regular.ttf) format("woff");
+    url(src/fonts/PressStart2P-Regular.ttf) format("woff");
   /* other formats include: 'woff2', 'truetype, 'opentype',
                             'embedded-opentype', and 'svg' */
 }

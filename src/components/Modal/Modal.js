@@ -1,7 +1,7 @@
 // import { FaWindowClose } from "react-icons/fa";
 import React, { useState, useEffect, useContext } from "react";
 import { Button } from "react-bootstrap";
-import UserFunctionClass from "./functions/UserFunctionClass";
+import UserFunctionClass from "../../functions/UserFunctionClass";
 import AuthContext from "./AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
