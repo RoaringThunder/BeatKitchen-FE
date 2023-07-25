@@ -47,6 +47,9 @@ Reset default styles * {
     rgba(0, 0, 0, 0),
     rgba(11, 11, 11, 0.919)
   );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .login-form h1 {
   color: #fff;
@@ -59,7 +62,12 @@ Reset default styles * {
   color: #fff;
   margin-bottom: 0.5em;
   padding-left: 30px;
+  margin-top: 20px;
   margin-bottom: 30px;
+}
+
+.login-form b {
+  color: #e74c3c;
 }
 
 .login-panel {
@@ -96,7 +104,7 @@ Reset default styles * {
   border-top-right-radius: 10px;
   border-bottom: 0px;
   border-color: rgba(63, 63, 63, 0);
-  color: #e74c3c;
+  color: rgba(153, 153, 153, 0.829);
 }
 
 .login-info-icon {
@@ -125,7 +133,7 @@ Reset default styles * {
 .active {
   box-shadow: rgba(0, 0, 0, 0.354) 1px 1px 10px 0px;
   clip-path: inset(-5px -5px 0px -5px);
-  color: white !important;
+  color: #e74c3c !important;
   pointer-events: none;
 }
 
