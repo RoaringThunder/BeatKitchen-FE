@@ -11,8 +11,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
 import AlertHandler from "src/components/Alerts/AlertHandler";
+import { useNavigate } from "react-router-dom";
+
 function Home() {
   const { CheckCookie, Login, SignUp } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("login");
   const [loading, setLoading] = useState(true);
@@ -43,9 +46,7 @@ function Home() {
     CheckCookie()
       .then((response) => {
         if (response.status == true) {
-          console.log(response.message);
         } else {
-          console.log(response.message);
         }
       })
       .catch((e) => {})
@@ -80,8 +81,6 @@ function Home() {
         if (response.status === true) {
           handleAlert(response.status, response.message);
         } else {
-          console.log(response);
-          console.log(response.message, response.status);
           handleAlert(response.status, response.message);
         }
       })
@@ -112,14 +111,13 @@ function Home() {
         if (response.status === true) {
           handleAlert(response.status, response.message);
         } else {
-          console.log(response);
-          console.log(response.message, response.status);
           handleAlert(response.status, response.message);
         }
       })
       .catch((e) => {})
       .finally(() => {
         setAwaiting(false);
+        navigate("/verify/email-sent");
       });
   };
 
@@ -162,11 +160,6 @@ function Home() {
       <div className="login">
         {!animating && (
           <>
-            {/* {loading && (
-              <>
-                <div className="App-Header-bar">{<span>Loading</span>}</div>
-              </>
-            )} */}
             {!loading && (
               <>
                 <div className="login-body">
@@ -220,16 +213,12 @@ function Home() {
                               <span>Password:</span>
 
                               <input
-                                type="text"
+                                type="password"
                                 id="loginPassword"
                                 name="loginPassword"
                                 placeholder="Password"
                                 maxLength={32}
-                                value={
-                                  formData.loginPassword.length > 0
-                                    ? "*".repeat(formData.loginPassword.length)
-                                    : ""
-                                }
+                                value={formData.loginPassword}
                                 onChange={(e) => onChangeFormData(e)}
                               />
                             </>
@@ -270,18 +259,12 @@ function Home() {
                               </span>
 
                               <input
-                                type="text"
+                                type="password"
                                 id="registerPassword"
                                 name="registerPassword"
                                 placeholder="Password"
                                 maxLength={32}
-                                value={
-                                  formData.registerPassword.length > 0
-                                    ? "*".repeat(
-                                        formData.registerPassword.length
-                                      )
-                                    : ""
-                                }
+                                value={formData.registerPassword}
                                 onChange={(e) => onChangeFormData(e)}
                               />
 
@@ -299,18 +282,12 @@ function Home() {
                                 )}
                               </span>
                               <input
-                                type="text"
+                                type="password"
                                 id="registerConfirmPassword"
                                 name="registerConfrimPassword"
                                 placeholder="Confirm Password"
                                 maxLength={32}
-                                value={
-                                  formData.registerConfirmPassword.length > 0
-                                    ? "*".repeat(
-                                        formData.registerConfirmPassword.length
-                                      )
-                                    : ""
-                                }
+                                value={formData.registerConfirmPassword}
                                 onChange={(e) => onChangeFormData(e)}
                               />
                             </>

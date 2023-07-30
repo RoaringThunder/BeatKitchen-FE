@@ -72,6 +72,17 @@ span:focus {
   color: rgb(123, 123, 123);
 }
 
+.form-group input[type="password"] {
+  height: 40px;
+  border-radius: 7px;
+  border: 0px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  background-color: rgb(63, 63, 63);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 5px 2px;
+  color: rgb(123, 123, 123);
+}
+
 @keyframes shake {
   0% {
     transform: rotate(0deg);

@@ -1,16 +1,29 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import axios from "axios";
 
 const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }) => {
   const API_HOST = process.env.REACT_APP_API_HOST;
+  const [authData, setAuthData] = useState(null); // State to store authentication data
+
+  axios.interceptors.request.use(
+    (config) => {
+      config.withCredentials = true;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
   const Login = async (payload) => {
     const apiURL = API_HOST + "/login";
     const result = axios
       .post(apiURL, payload)
       .then((response) => {
         if (response.status === 200) {
+          sessionStorage.setItem("email", payload.email);
           return { status: true, data: response, statusCode: response.status };
         } else {
           return {
@@ -38,6 +51,7 @@ export const AuthContextProvider = ({ children }) => {
       .get(apiURL)
       .then((response) => {
         if (response.status === 200) {
+          sessionStorage.setItem("email", response.data.email);
           return { status: true, data: response, statusCode: response.status };
         } else {
           return {
@@ -54,7 +68,7 @@ export const AuthContextProvider = ({ children }) => {
           statusMsg = err.response.data.error;
           statusCode = err.response.status;
         }
-        return { ststus: false, message: statusMsg, statusCode: statusCode };
+        return { status: false, message: statusMsg, statusCode: statusCode };
       });
     return result;
   };
@@ -65,6 +79,7 @@ export const AuthContextProvider = ({ children }) => {
       .post(apiURL, payload)
       .then((response) => {
         if (response.status === 200) {
+          sessionStorage.setItem("email", payload.email);
           return { status: true, data: response, statusCode: response.status };
         } else {
           return {
@@ -87,7 +102,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ Login, CheckCookie, SignUp }}>
+    <AuthContext.Provider value={{ Login, CheckCookie, SignUp, authData }}>
       {children}
     </AuthContext.Provider>
   );

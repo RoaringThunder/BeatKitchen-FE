@@ -1,16 +1,17 @@
 import React from "react";
 import axios from "axios";
 
-const API_HOST = process.env.REACT_APP_API_HOST;
-axios.defaults.withCredentials = true;
+const API_HOST = process.env.REACT_APP_API_SMTP_HOST;
 
+class UserFunctionClass {
+  async VerifyUser(userData) {
+    const api_url = API_HOST + "/verify";
+    console.log(api_url);
 
-class UserFunctionClass extends React.Component {
-  async SignIn(userData) {
-    const apiURL = API_HOST + "/login";
+    // send post requst to check the verification code
     const result = await axios({
       method: "post",
-      url: apiURL,
+      url: api_url,
       data: userData,
       withCredentials: true,
     })
@@ -37,12 +38,12 @@ class UserFunctionClass extends React.Component {
     return result;
   }
 
-  async SignUp(userData) {
-    const apiURL = API_HOST + "/create";
+  async SendVerification() {
+    const api_url = API_HOST + "/verify/send-verification";
     const result = await axios({
-      method: "post",
-      url: apiURL,
-      data: userData,
+      method: "get",
+      url: api_url,
+      withCredentials: true,
     })
       .then((response) => {
         if (response.status === 200) {
@@ -67,6 +68,6 @@ class UserFunctionClass extends React.Component {
     return result;
   }
 }
+export const UserFunctionClassExport = new UserFunctionClass();
 
-const UserFunctionClassExport = new UserFunctionClass();
 export default UserFunctionClassExport;
