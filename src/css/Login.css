@@ -13,7 +13,6 @@ Reset default styles * {
 .login {
   height: 100vh;
   width: 100vw;
-  background-color: #333131;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -23,9 +22,6 @@ Reset default styles * {
   max-width: 100vw;
   max-height: 100vh;
   text-align: center;
-
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .login-body {

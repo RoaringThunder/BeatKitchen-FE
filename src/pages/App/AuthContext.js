@@ -36,17 +36,17 @@ export const AuthContextProvider = ({ children }) => {
       .catch((err) => {
         let statusCode = 500;
         let statusMsg = "Connection Refused";
-        if (err.response) {
+        if (err.response.data.message && err.response.status) {
           statusMsg = err.response.data.message;
           statusCode = err.response.status;
         }
-        return { status: false, message: statusMsg, statusCode: statusCode };
+        return { ststus: false, message: statusMsg, statusCode: statusCode };
       });
     return result;
   };
 
   const CheckCookie = async () => {
-    const apiURL = API_HOST + "/api/login/check-cookie";
+    const apiURL = API_HOST + "/login/check-cookie";
     const result = axios
       .get(apiURL)
       .then((response) => {
@@ -64,11 +64,11 @@ export const AuthContextProvider = ({ children }) => {
       .catch((err) => {
         let statusCode = 500;
         let statusMsg = "Connection Refused";
-        if (err.response) {
-          statusMsg = err.response.data.error;
+        if (err.response.data.message && err.response.status) {
+          statusMsg = err.response.data.message;
           statusCode = err.response.status;
         }
-        return { status: false, message: statusMsg, statusCode: statusCode };
+        return { ststus: false, message: statusMsg, statusCode: statusCode };
       });
     return result;
   };
@@ -92,11 +92,11 @@ export const AuthContextProvider = ({ children }) => {
       .catch((err) => {
         let statusCode = 500;
         let statusMsg = "Connection Refused";
-        if (err.response) {
+        if (err.response.data.message && err.response.status) {
           statusMsg = err.response.data.message;
           statusCode = err.response.status;
         }
-        return { status: false, message: statusMsg, statusCode: statusCode };
+        return { ststus: false, message: statusMsg, statusCode: statusCode };
       });
     return result;
   };

@@ -1,12 +1,12 @@
 import React from "react";
 import axios from "axios";
 
-const API_HOST = process.env.REACT_APP_API_SMTP_HOST;
+const SMTP_HOST = process.env.REACT_APP_API_SMTP_HOST;
+const API_HOST = process.env.REACT_APP_API_HOST;
 
 class UserFunctionClass {
   async VerifyUser(userData) {
-    const api_url = API_HOST + "/verify";
-    console.log(api_url);
+    const api_url = SMTP_HOST + "/verify";
 
     // send post requst to check the verification code
     const result = await axios({
@@ -21,7 +21,7 @@ class UserFunctionClass {
         } else {
           return {
             status: false,
-            data: response.message,
+            data: response.data.message,
             statusCode: response.status,
           };
         }
@@ -29,8 +29,8 @@ class UserFunctionClass {
       .catch((err) => {
         let statusCode = 500;
         let statusMsg = "Connection Refused";
-        if (err.response) {
-          statusMsg = err.response.data.error;
+        if (err.response.data.message && err.response.status) {
+          statusMsg = err.response.data.message;
           statusCode = err.response.status;
         }
         return { ststus: false, message: statusMsg, statusCode: statusCode };
@@ -39,7 +39,7 @@ class UserFunctionClass {
   }
 
   async SendVerification() {
-    const api_url = API_HOST + "/verify/send-verification";
+    const api_url = SMTP_HOST + "/verify/send-verification";
     const result = await axios({
       method: "get",
       url: api_url,
@@ -59,8 +59,37 @@ class UserFunctionClass {
       .catch((err) => {
         let statusCode = 500;
         let statusMsg = "Connection Refused";
-        if (err.response) {
-          statusMsg = err.response.data.error;
+        if (err.response.data.message && err.response.status) {
+          statusMsg = err.response.data.message;
+          statusCode = err.response.status;
+        }
+        return { ststus: false, message: statusMsg, statusCode: statusCode };
+      });
+    return result;
+  }
+  async CheckVerified() {
+    const api_url = API_HOST + "/verify/check-verified";
+    const result = await axios({
+      method: "get",
+      url: api_url,
+      withCredentials: true,
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return { status: true, data: response, statusCode: response.status };
+        } else {
+          return {
+            status: false,
+            data: response.message,
+            statusCode: response.status,
+          };
+        }
+      })
+      .catch((err) => {
+        let statusCode = 500;
+        let statusMsg = "Connection Refused";
+        if (err.response.data.message && err.response.status) {
+          statusMsg = err.response.data.message;
           statusCode = err.response.status;
         }
         return { ststus: false, message: statusMsg, statusCode: statusCode };

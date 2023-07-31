@@ -110,6 +110,7 @@ function Home() {
       .then((response) => {
         if (response.status === true) {
           handleAlert(response.status, response.message);
+          navigate("/verify/email-sent");
         } else {
           handleAlert(response.status, response.message);
         }
@@ -117,7 +118,6 @@ function Home() {
       .catch((e) => {})
       .finally(() => {
         setAwaiting(false);
-        navigate("/verify/email-sent");
       });
   };
 
