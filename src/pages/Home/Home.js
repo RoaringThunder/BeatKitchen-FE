@@ -11,8 +11,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
 import AlertHandler from "src/components/Alerts/AlertHandler";
+import { useNavigate } from "react-router-dom";
+
 function Home() {
-  const { CheckCookie, loginApiCall } = useContext(AuthContext);
+  const { CheckCookie, Login, SignUp } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("login");
   const [loading, setLoading] = useState(true);
@@ -43,9 +46,7 @@ function Home() {
     CheckCookie()
       .then((response) => {
         if (response.status == true) {
-          console.log(response.message);
         } else {
-          console.log(response.message);
         }
       })
       .catch((e) => {})
@@ -75,12 +76,11 @@ function Home() {
       password: formData.loginPassword,
     };
     setAwaiting(true);
-    await loginApiCall(formDataExistingUser)
+    await Login(formDataExistingUser)
       .then((response) => {
         if (response.status === true) {
+          handleAlert(response.status, response.message);
         } else {
-          console.log(response);
-          console.log(response.message, response.status);
           handleAlert(response.status, response.message);
         }
       })
@@ -90,7 +90,7 @@ function Home() {
       });
   };
 
-  const signUpHandler = () => {
+  const signUpHandler = async () => {
     setShowBadRegisterPassword(false);
     setShowBadRegisterEmail(false);
     if (formData.registerPassword !== formData.registerConfirmPassword) {
@@ -104,14 +104,15 @@ function Home() {
     const formDataNewUser = {
       email: formData.registerEmail,
       password: formData.registerPassword,
-      firstname: formData.registerFirstname,
     };
     setAwaiting(true);
-    UserFunctionClass.SignUp(formDataNewUser)
+    await SignUp(formDataNewUser)
       .then((response) => {
         if (response.status === true) {
-          hide();
+          handleAlert(response.status, response.message);
+          navigate("/verify/email-sent");
         } else {
+          handleAlert(response.status, response.message);
         }
       })
       .catch((e) => {})
@@ -140,7 +141,6 @@ function Home() {
     setFormData({
       loginEmail: "",
       loginPassword: "",
-      registerFirstname: "",
       registerEmail: "",
       registerPassword: "",
       registerConfirmPassword: "",
@@ -160,21 +160,14 @@ function Home() {
       <div className="login">
         {!animating && (
           <>
-            {/* {loading && (
-              <>
-                <div className="App-Header-bar">{<span>Loading</span>}</div>
-              </>
-            )} */}
             {!loading && (
               <>
                 <div className="login-body">
                   <div className="col-xs-12 col-sm-6 col-m-12 col-l-12 login-form">
-                    <div className="login-form-header">
-                      <h3>Salamander.io</h3>
-                      <br />
+                    <div className="login-header">
                       <p>
                         Allow family and friends to take control of the party
-                        today, with Salamander.io!
+                        today, with <b>Salamander.io!</b>
                       </p>
                     </div>
                     <div className="login-panel">
@@ -214,45 +207,23 @@ function Home() {
                                 name="loginEmail"
                                 placeholder="Email"
                                 value={formData.loginEmail}
+                                maxLength={320}
                                 onChange={(e) => onChangeFormData(e)}
                               />
                               <span>Password:</span>
 
                               <input
-                                type="text"
+                                type="password"
                                 id="loginPassword"
                                 name="loginPassword"
                                 placeholder="Password"
-                                value={
-                                  formData.loginPassword.length > 0
-                                    ? "*".repeat(formData.loginPassword.length)
-                                    : ""
-                                }
+                                maxLength={32}
+                                value={formData.loginPassword}
                                 onChange={(e) => onChangeFormData(e)}
                               />
                             </>
                           ) : (
                             <>
-                              <span>
-                                Firstname:
-                                <Tippy content="No spaces or special characters allowed">
-                                  <span className="login-info-icon">
-                                    <FontAwesomeIcon
-                                      icon={faCircleInfo}
-                                      color="white"
-                                    />
-                                  </span>
-                                </Tippy>
-                              </span>
-                              <input
-                                type="text"
-                                id="registerFirstname"
-                                name="registerFirstname"
-                                placeholder="Firstname"
-                                value={formData.registerFirstname}
-                                onChange={(e) => onChangeFormData(e)}
-                              />
-
                               <span>
                                 Email:
                                 {showBadRegisterEmail && (
@@ -271,6 +242,7 @@ function Home() {
                                 id="registerEmail"
                                 name="registerEmail"
                                 placeholder="Email"
+                                maxLength={320}
                                 value={formData.registerEmail}
                                 onChange={(e) => onChangeFormData(e)}
                               />
@@ -287,17 +259,12 @@ function Home() {
                               </span>
 
                               <input
-                                type="text"
+                                type="password"
                                 id="registerPassword"
                                 name="registerPassword"
                                 placeholder="Password"
-                                value={
-                                  formData.registerPassword.length > 0
-                                    ? "*".repeat(
-                                        formData.registerPassword.length
-                                      )
-                                    : ""
-                                }
+                                maxLength={32}
+                                value={formData.registerPassword}
                                 onChange={(e) => onChangeFormData(e)}
                               />
 
@@ -315,17 +282,12 @@ function Home() {
                                 )}
                               </span>
                               <input
-                                type="text"
+                                type="password"
                                 id="registerConfirmPassword"
                                 name="registerConfrimPassword"
                                 placeholder="Confirm Password"
-                                value={
-                                  formData.registerConfirmPassword.length > 0
-                                    ? "*".repeat(
-                                        formData.registerConfirmPassword.length
-                                      )
-                                    : ""
-                                }
+                                maxLength={32}
+                                value={formData.registerConfirmPassword}
                                 onChange={(e) => onChangeFormData(e)}
                               />
                             </>

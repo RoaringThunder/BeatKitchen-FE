@@ -82,8 +82,8 @@ function Modal(props) {
               <div
                 className={`${
                   tab === "signin"
-                    ? "col-xs-5 col-md-9 col-l-10 col-xl-10 text-active"
-                    : "col-xs-7 col-md-3 col-l-2 col-xl-2"
+                    ? "col-xs-5 col-md-9 col-lg-10 col-xl-10 text-active"
+                    : "col-xs-7 col-md-3 col-lg-2 col-xl-2"
                 }`}
                 onClick={onClickLogin}
               >
@@ -92,8 +92,8 @@ function Modal(props) {
               <div
                 className={`${
                   tab === "signup"
-                    ? "col-xs-5 col-md-9 col-l-10 col-xl-10 text-active"
-                    : "col-xs-7 col-md-3 col-l-2 col-xl-2"
+                    ? "col-xs-5 col-md-9 col-lg-10 col-xl-10 text-active"
+                    : "col-xs-7 col-md-3 col-lg-2 col-xl-2"
                 }`}
                 onClick={onClickSignUp}
               >

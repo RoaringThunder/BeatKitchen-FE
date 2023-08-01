@@ -1,29 +1,52 @@
-import { createContext, useState } from "react";
+import React from "react";
 import axios from "axios";
 
-const AuthContext = createContext({});
+const SMTP_HOST = process.env.REACT_APP_API_SMTP_HOST;
+const API_HOST = process.env.REACT_APP_API_HOST;
 
-export const AuthContextProvider = ({ children }) => {
-  const API_HOST = process.env.REACT_APP_API_HOST;
-  const [authData, setAuthData] = useState(null); // State to store authentication data
+class UserFunctionClass {
+  async VerifyUser(userData) {
+    const api_url = SMTP_HOST + "/verify";
 
-  axios.interceptors.request.use(
-    (config) => {
-      config.withCredentials = true;
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
-
-  const Login = async (payload) => {
-    const apiURL = API_HOST + "/login";
-    const result = axios
-      .post(apiURL, payload)
+    // send post requst to check the verification code
+    const result = await axios({
+      method: "post",
+      url: api_url,
+      data: userData,
+      withCredentials: true,
+    })
       .then((response) => {
         if (response.status === 200) {
-          sessionStorage.setItem("email", payload.email);
+          return { status: true, data: response, statusCode: response.status };
+        } else {
+          return {
+            status: false,
+            data: response.data.message,
+            statusCode: response.status,
+          };
+        }
+      })
+      .catch((err) => {
+        let statusCode = 500;
+        let statusMsg = "Connection Refused";
+        if (err.response.data.message && err.response.status) {
+          statusMsg = err.response.data.message;
+          statusCode = err.response.status;
+        }
+        return { ststus: false, message: statusMsg, statusCode: statusCode };
+      });
+    return result;
+  }
+
+  async SendVerification(forceSend) {
+    const api_url = SMTP_HOST + "/verify/send-verification/" + forceSend;
+    const result = await axios({
+      method: "post",
+      url: api_url,
+      withCredentials: true,
+    })
+      .then((response) => {
+        if (response.status === 200) {
           return { status: true, data: response, statusCode: response.status };
         } else {
           return {
@@ -43,15 +66,16 @@ export const AuthContextProvider = ({ children }) => {
         return { ststus: false, message: statusMsg, statusCode: statusCode };
       });
     return result;
-  };
-
-  const CheckCookie = async () => {
-    const apiURL = API_HOST + "/login/check-cookie";
-    const result = axios
-      .get(apiURL)
+  }
+  async CheckVerified() {
+    const api_url = API_HOST + "/verify/check-verified";
+    const result = await axios({
+      method: "get",
+      url: api_url,
+      withCredentials: true,
+    })
       .then((response) => {
         if (response.status === 200) {
-          sessionStorage.setItem("email", response.data.email);
           return { status: true, data: response, statusCode: response.status };
         } else {
           return {
@@ -71,41 +95,8 @@ export const AuthContextProvider = ({ children }) => {
         return { ststus: false, message: statusMsg, statusCode: statusCode };
       });
     return result;
-  };
+  }
+}
+export const UserFunctionClassExport = new UserFunctionClass();
 
-  const SignUp = async (payload) => {
-    const apiURL = API_HOST + "/create";
-    const result = axios
-      .post(apiURL, payload)
-      .then((response) => {
-        if (response.status === 200) {
-          sessionStorage.setItem("email", payload.email);
-          return { status: true, data: response, statusCode: response.status };
-        } else {
-          return {
-            status: false,
-            data: response.message,
-            statusCode: response.status,
-          };
-        }
-      })
-      .catch((err) => {
-        let statusCode = 500;
-        let statusMsg = "Connection Refused";
-        if (err.response.data.message && err.response.status) {
-          statusMsg = err.response.data.message;
-          statusCode = err.response.status;
-        }
-        return { ststus: false, message: statusMsg, statusCode: statusCode };
-      });
-    return result;
-  };
-
-  return (
-    <AuthContext.Provider value={{ Login, CheckCookie, SignUp, authData }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
-export default AuthContext;
+export default UserFunctionClassExport;

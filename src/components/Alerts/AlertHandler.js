@@ -10,31 +10,33 @@ function AlertHandler(props) {
   const { status, message } = props;
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-  const [alertStatus, setAlertStatus] = useState("success");
+  const [alertStatus, setAlertStatus] = useState("");
 
   useEffect(() => {
-    console.log(status, message);
-    if (status == false) {
+    if (status === false) {
       setAlertStatus("danger");
-    } else if (status == true) {
-      setAlertStatus("danger");
+    } else if (status === true) {
+      setAlertStatus("success");
     } else {
-      setAlertStatus(message);
+      setAlertStatus(status);
     }
     setAlertMessage(message);
     setShowAlert(true);
-  }, [message, status]);
 
-  useEffect(() => {
-    const displayAlert = setTimeout(() => {
-      setAlertMessage("");
+    const timeout = setTimeout(() => {
       setShowAlert(false);
     }, 3000);
 
-    return () => clearTimeout(displayAlert);
-  }, [alertMessage]);
+    return () => clearTimeout(timeout);
+  }, [message, status]);
 
-  // TO DO: After alert is hidden, reset the status and message to default values
+  // Reset the alertStatus and alertMessage when showAlert changes to false
+  useEffect(() => {
+    if (!showAlert) {
+      setAlertStatus("");
+      setAlertMessage("");
+    }
+  }, [showAlert]);
 
   useEffect;
   return (

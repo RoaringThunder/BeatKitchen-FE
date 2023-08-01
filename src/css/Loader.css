@@ -22,6 +22,23 @@
   z-index: 1;
 }
 
+.vinyl-record-lg-loader {
+  position: absolute;
+  width: 30vw;
+  height: 30vw;
+  background-color: #000;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: loaderFlip 1s linear infinite normal none running;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
 .vinyl-label {
   width: 37.5%;
   height: 37.5%;
@@ -146,5 +163,14 @@
   }
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes loaderFlip {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
