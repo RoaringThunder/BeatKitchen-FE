@@ -38,10 +38,10 @@ class UserFunctionClass {
     return result;
   }
 
-  async SendVerification() {
-    const api_url = SMTP_HOST + "/verify/send-verification";
+  async SendVerification(forceSend) {
+    const api_url = SMTP_HOST + "/verify/send-verification/" + forceSend;
     const result = await axios({
-      method: "get",
+      method: "post",
       url: api_url,
       withCredentials: true,
     })

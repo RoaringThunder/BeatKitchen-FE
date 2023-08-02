@@ -6,42 +6,48 @@ import { useNavigate } from "react-router-dom";
 function VerificationSent() {
   const email = sessionStorage.getItem("email");
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
   const navigate = useNavigate();
 
-  const SendVerificationEmail = () => {
-    UserFunctionClassExport.SendVerification()
+  const SendVerificationEmail = (force) => {
+    setSending(true);
+    UserFunctionClassExport.SendVerification(force)
       .then((response) => {
         if (response.status == true) {
           setSent(true);
         } else {
-          console.log("failed");
         }
       })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {});
+      .catch((err) => {})
+      .finally(() => {
+        setSending(false);
+      });
   };
 
   const CheckVerified = () => {
+    setLoading(true);
     UserFunctionClassExport.CheckVerified()
       .then((response) => {
         if (response.status == true) {
-          SendVerificationEmail();
+          SendVerificationEmail(false);
         } else {
           navigate("/");
         }
       })
-      .catch((err) => {
-        console.log(err);
-      })
+      .catch((err) => {})
       .then(() => {})
-      .finally(() => {});
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
-    console.log("here");
-    CheckVerified();
+    if (email != null && email != undefined && email != "") {
+      CheckVerified();
+    } else {
+      navigate("/");
+    }
   }, []);
 
   return (
@@ -58,8 +64,10 @@ function VerificationSent() {
                   in the email to verify your account.
                   <br />
                   <br /> If you didn't recieve an email click{" "}
-                  <span onClick={SendVerificationEmail}>here</span> to send
-                  another.
+                  <span onClick={() => SendVerificationEmail(true)}>
+                    here
+                  </span>{" "}
+                  to send another.
                 </p>
               </div>
             </div>
