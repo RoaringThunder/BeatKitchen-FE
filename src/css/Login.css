@@ -144,19 +144,23 @@ Reset default styles * {
 
 .vinyl-record {
   position: absolute;
-  width: 30vw;
-  height: 30vw;
   background-color: #000;
   border-radius: 50%;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  animation: slideIn 1s ease-in-out 0s 1 normal none running;
   z-index: 1;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   z-index: 1;
+  overflow: hidden;
+}
+
+.small-vinyl {
+  width: 30vw;
+  height: 30vw;
+  animation: slideIn 1s ease-in-out, spin 2s linear 1;
 }
 
 .vinyl-label {
@@ -208,15 +212,6 @@ Reset default styles * {
   }
 }
 
-@keyframes wobble {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(2deg);
-  }
-}
-
 .vinyl-overlay {
   display: flex;
   position: relative;
@@ -238,13 +233,13 @@ Reset default styles * {
   transition-duration: 1s;
   transition-timing-function: ease;
   transition-delay: 0s;
-  transform: translateX(50vw) scale(400%) rotate(400deg);
+  transform: translateX(50vw) scale(400%);
 }
 
-@keyframes slideOut {
-  0% {
-  }
-  100% {
-    transform: translateX(100vw);
-  }
+.big-vinyl {
+  transition-property: transform;
+  transition-duration: 1s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  transform: translateX(50vw) scale(400%);
 }
